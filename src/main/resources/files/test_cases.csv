@@ -1,0 +1,5 @@
+name,objective,precondition
+FazerLogin,Deve logar com sucesso,Usar credenciais validas
+CadastrarUsuario,Deve realizar cadastro com sucesso,Os dados de usuario devem ser validos
+RealizarPagamento,Deve realizar pagamento com sucesso,Usuario deve possuir conta valida
+AtualizarEnderecoDeUsuario,Dados de endereco na base de dados deve ser igual aos dados enviado na requisicao.,Usuario deve enviar novos dados de endereco para atualizacao
