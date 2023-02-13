@@ -1,0 +1,5 @@
+# Ignore the IntelliJ IDEA project files
+.idea/
+
+# Ignore the Maven target directory
+target/

@@ -1,0 +1,16 @@
+    @Test
+    @TestCase(key="Q0-T91")
+    public void test_FazerLogin(){}
+
+    @Test
+    @TestCase(key="Q0-T92")
+    public void test_CadastrarUsuario(){}
+
+    @Test
+    @TestCase(key="Q0-T93")
+    public void test_RealizarPagamento(){}
+
+    @Test
+    @TestCase(key="Q0-T94")
+    public void test_AtualizarEnderecoDeUsuario(){}
+
