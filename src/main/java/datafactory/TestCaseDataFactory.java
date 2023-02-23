@@ -11,6 +11,9 @@ public class TestCaseDataFactory {
                 .withName(testCase.getName())
                 .withObjective(testCase.getObjective())
                 .withPreCondition(testCase.getPrecondition())
+                .withStatusId(testCase.getStatusId())
+                .withPriorityId(testCase.getPriorityId())
+                .withLabels(testCase.getLabels())
                 .build();
     }
 }
