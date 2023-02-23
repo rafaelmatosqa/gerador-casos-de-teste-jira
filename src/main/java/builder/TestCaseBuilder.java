@@ -2,6 +2,8 @@ package builder;
 
 import model.TestCase;
 
+import java.util.List;
+
 public class TestCaseBuilder {
 
     private final TestCase testCase;
@@ -27,6 +29,20 @@ public class TestCaseBuilder {
 
     public TestCaseBuilder withPreCondition(String precondition) {
         testCase.setPrecondition(precondition);
+        return this;
+    }
+
+    public TestCaseBuilder withStatusId(Integer statusId) {
+        testCase.setStatusId(statusId);
+        return this;
+    }
+    public TestCaseBuilder withPriorityId(Integer priorityId) {
+        testCase.setPriorityId(priorityId);
+        return this;
+    }
+
+    public TestCaseBuilder withLabels(List<String> labels) {
+        testCase.setLabels(labels);
         return this;
     }
 

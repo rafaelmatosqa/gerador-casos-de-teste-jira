@@ -46,7 +46,7 @@ public class TestCaseService {
 
                 if (statusCode == 201) {
                     JSONObject responseJson = new JSONObject(EntityUtils.toString(response.getEntity()));
-                    testIds.add(new TestCaseResponse(responseJson.getString("key"), aCase.getName()));
+                    testIds.add(new TestCaseResponse(responseJson.getInt("id"),responseJson.getString("key"), aCase.getName()));
 
                 } else {
                     System.out.println("Failed to create test case: " + response.getStatusLine().getStatusCode() + response.getStatusLine().getReasonPhrase());
