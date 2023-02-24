@@ -12,8 +12,8 @@ public class TestCaseBuilder {
         testCase = new TestCase();
     }
 
-    public TestCaseBuilder withProjectKey(String projectKey) {
-        testCase.setProjectKey(projectKey);
+    public TestCaseBuilder withProjectId(Integer projectId) {
+        testCase.setProjectId(projectId);
         return this;
     }
 
@@ -45,6 +45,7 @@ public class TestCaseBuilder {
         testCase.setLabels(labels);
         return this;
     }
+
 
     public TestCase build() {
         return testCase;

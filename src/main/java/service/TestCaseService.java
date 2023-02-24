@@ -12,12 +12,15 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import utilities.Templates;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import static constants.Constants.*;
+import static utilities.Utilities.formatString;
 import static utilities.Utilities.toJson;
 
 public class TestCaseService {
@@ -25,19 +28,21 @@ public class TestCaseService {
 
     public static List<TestCaseResponse> createTestCase(List<TestCase> testCase) throws IOException {
         Properties properties = new Properties();
-        properties.load(new FileInputStream("src/main/resources/config.properties"));
+        properties.load(new FileInputStream(PATH_CONFIG));
 
         List<TestCaseResponse> testIds = new ArrayList<>();
+
         for (TestCase aCase : testCase) {
             CloseableHttpClient client = HttpClientBuilder.create().build();
-            HttpPost request = new HttpPost(properties.getProperty("urlBase").concat("/v2/testcases"));
-            request.setHeader("Authorization", properties.getProperty("token"));
+            HttpPost request = new HttpPost(properties.getProperty("urlBase").concat(PATH_TEST_CASE));
+            request.setHeader("authorization", properties.getProperty("token"));
             request.setHeader("Content-Type", "application/json");
+            request.setHeader("jira-project-id",properties.getProperty("projectId"));
 
             try {
                 TestCaseDataFactory testCaseDataFactory = new TestCaseDataFactory();
                 ObjectMapper objectMapper = new ObjectMapper();
-                String requestBody = toJson(objectMapper, testCaseDataFactory.createTestCases(properties.getProperty("projectKey"),aCase));
+                String requestBody = toJson(objectMapper, testCaseDataFactory.createTestCases(Integer.valueOf(properties.getProperty("projectId")),aCase));
 
                 request.setEntity(new StringEntity(requestBody));
                 HttpResponse response = client.execute(request);
@@ -46,7 +51,7 @@ public class TestCaseService {
 
                 if (statusCode == 201) {
                     JSONObject responseJson = new JSONObject(EntityUtils.toString(response.getEntity()));
-                    testIds.add(new TestCaseResponse(responseJson.getInt("id"),responseJson.getString("key"), aCase.getName()));
+                    testIds.add(new TestCaseResponse(responseJson.getInt("id"),responseJson.getString("key"), aCase.getName(),aCase.getDescription()));
 
                 } else {
                     System.out.println("Failed to create test case: " + response.getStatusLine().getStatusCode() + response.getStatusLine().getReasonPhrase());
@@ -70,13 +75,12 @@ public class TestCaseService {
     }
 
     public static void generateFileWithTestMethodsAndTestCaseIds(List<TestCaseResponse> lista) {
-        File file = new File("src/main/resources/files/test_cases_generated.txt");
+        File file = new File(PATH_TXT);
+
         try (FileWriter writer = new FileWriter(file)) {
             for (int i = 0; i < lista.size(); i++) {
 
-                String text = "    @Test\n" +
-                        "    @TestCase(key=\"" + lista.get(i).getIdTestcase() + "\")\n" +
-                        "    public void test_" + lista.get(i).getTestCaseName() + "(){}\n\n";
+                String text = Templates.TemplateTestNg(lista.get(i).getIdTestcase(),formatString(lista.get(i).getTestCaseName()),lista.get(i).getDescriptionTestCase());
                 writer.write(text);
                 writer.flush();
             }

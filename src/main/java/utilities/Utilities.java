@@ -10,6 +10,7 @@ import lombok.experimental.UtilityClass;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 @UtilityClass
 public class Utilities {
@@ -36,6 +37,21 @@ public class Utilities {
                 .readValues(csvFile);
 
         return objIter.readAll();
+    }
+
+    public static String formatString(String input) {
+        String cleanString = input.replaceAll("[^\\p{ASCII}]", "");
+        Scanner scanner = new Scanner(cleanString);
+        StringBuilder result = new StringBuilder();
+        while (scanner.hasNext()) {
+            String word = scanner.next();
+            if (word.length() > 0) {
+                char firstChar = word.charAt(0);
+                result.append(Character.toUpperCase(firstChar)).append(word.substring(1));
+            }
+        }
+
+        return result.toString();
     }
 
 }

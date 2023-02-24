@@ -5,9 +5,9 @@ import model.TestCase;
 
 public class TestCaseDataFactory {
 
-    public TestCase createTestCases(String projectKey, TestCase testCase) {
+    public TestCase createTestCases(Integer projectId, TestCase testCase) {
         return new TestCaseBuilder()
-                .withProjectKey(projectKey)
+                .withProjectId(projectId)
                 .withName(testCase.getName())
                 .withObjective(testCase.getObjective())
                 .withPreCondition(testCase.getPrecondition())
